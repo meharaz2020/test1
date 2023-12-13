@@ -7,7 +7,8 @@ import pyodbc
 
 conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=34.126.156.95;DATABASE=bdjResumes;UID=buMeharaz;PWD=86Yj?ib49')
 
-query = '''
+
+query1 = '''
 ;WIth mainCTE as(
 select o.P_ID,u.accFirstName+' '+u.accLastName as name ,u.accPhone,pr.SEX,
 CONCAT(DATEDIFF(year, pr.BIRTH, GETDATE()), '.', DATEDIFF(month, pr.BIRTH, GETDATE()) % 12) as age
@@ -30,8 +31,11 @@ FROM mainCTE m
 LEFT JOIN mnt.CandidatePackages u ON m.P_ID = u.P_ID
 order by m.p_id
 '''
-df = pd.read_sql_query(query, conn)
-df
+
+
+
+df = pd.read_sql_query(query1, conn)
+
 # Calculate CM day wise subscriptions
 df['Purchase Date'] = pd.to_datetime(df['Purchase Date'])
 
