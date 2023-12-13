@@ -5,7 +5,7 @@ dash-core-components
 dash-html-components
 dash-bootstrap-components
 dash-table
-pyodbc
+pymssql
 openpyxl
 gspread
 oauth2client
