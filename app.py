@@ -3,12 +3,18 @@ from dash import dcc, html
 from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
-import pyodbc
-
-conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=34.126.156.95;DATABASE=bdjResumes;UID=buMeharaz;PWD=86Yj?ib49')
+import pymssql
 
 
-query1 = '''
+server = '34.126.156.95'
+database = 'bdjResumes'
+username = 'buMeharaz'
+password = '86Yj?ib49'
+
+conn = pymssql.connect(server, username, password, database)
+
+
+query = '''
 ;WIth mainCTE as(
 select o.P_ID,u.accFirstName+' '+u.accLastName as name ,u.accPhone,pr.SEX,
 CONCAT(DATEDIFF(year, pr.BIRTH, GETDATE()), '.', DATEDIFF(month, pr.BIRTH, GETDATE()) % 12) as age
@@ -32,9 +38,14 @@ LEFT JOIN mnt.CandidatePackages u ON m.P_ID = u.P_ID
 order by m.p_id
 '''
 
+# Execute the query and read into a DataFrame
+df = pd.read_sql_query(query, conn)
 
+# Close the connection
+conn.close()
 
-df = pd.read_sql_query(query1, conn)
+# Display the DataFrame
+df
 
 # Calculate CM day wise subscriptions
 df['Purchase Date'] = pd.to_datetime(df['Purchase Date'])
