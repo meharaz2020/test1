@@ -1,0 +1,14 @@
+dash
+plotly
+pandas
+dash-core-components
+dash-html-components
+dash-bootstrap-components
+dash-table
+pyodbc
+openpyxl
+gspread
+oauth2client
+gunicorn
+
+
